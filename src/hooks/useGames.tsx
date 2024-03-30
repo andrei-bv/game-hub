@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import apiClient from "../services/api-client";
 import axios, { CanceledError } from "axios";
 import useData from "./useData";
+import { Genre } from "./useGenre";
 
 export interface Game {
   id: number;
@@ -9,6 +10,7 @@ export interface Game {
   background_image: string;
   parent_platforms: { platform: Platform }[];
   metacritic: number;
+  genres: Genre[];
 }
 
 export interface Platform {
@@ -17,8 +19,14 @@ export interface Platform {
   slug: string;
 }
 
-const useGames = () => {
-  return useData<Game>("/games");
+const useGames = (selectedGenre: Genre | null) => {
+  return useData<Game>(
+    "/games",
+    {
+      params: { genres: selectedGenre ? selectedGenre.id : null },
+    },
+    [selectedGenre?.id]
+  );
 };
 
 export default useGames;

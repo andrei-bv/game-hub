@@ -1,6 +1,7 @@
 import React from "react";
 import useGenre from "../hooks/useGenre";
 import {
+  Button,
   HStack,
   Image,
   List,
@@ -12,8 +13,14 @@ import {
 import useData from "../hooks/useData";
 import { Genre } from "../hooks/useGenre";
 import getCroppedImage from "../services/image-url";
+import useGames from "../hooks/useGames";
+import GameGrid from "./GameGrid";
 
-const GenreList = () => {
+interface Props {
+  onSeletedGenre: (genre: Genre) => void;
+}
+
+const GenreList = ({ onSeletedGenre }: Props) => {
   const { data, error, isLoading } = useGenre();
 
   return (
@@ -21,14 +28,20 @@ const GenreList = () => {
       {isLoading && <Spinner />}
       <List>
         {data.map((genre) => (
-          <ListItem key={genre.id} paddingY="5px">
+          <ListItem key={genre.id} paddingY="5px" cursor="pointer">
             <HStack>
               <Image
                 boxSize="32px"
                 borderRadius={8}
                 src={getCroppedImage(genre.image_background)}
               ></Image>
-              <Text fontSize="large">{genre.name}</Text>
+              <Button
+                onClick={() => onSeletedGenre(genre)}
+                fontSize="large"
+                variant="link"
+              >
+                {genre.name}
+              </Button>
             </HStack>
           </ListItem>
         ))}

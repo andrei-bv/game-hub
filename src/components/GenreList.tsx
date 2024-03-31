@@ -18,9 +18,10 @@ import GameGrid from "./GameGrid";
 
 interface Props {
   onSeletedGenre: (genre: Genre) => void;
+  selectedGenre: Genre | null;
 }
 
-const GenreList = ({ onSeletedGenre }: Props) => {
+const GenreList = ({ onSeletedGenre, selectedGenre }: Props) => {
   const { data, error, isLoading } = useGenre();
 
   return (
@@ -37,6 +38,7 @@ const GenreList = ({ onSeletedGenre }: Props) => {
               ></Image>
               <Button
                 onClick={() => onSeletedGenre(genre)}
+                fontWeight={genre.id == selectedGenre?.id ? "bold" : ""}
                 fontSize="large"
                 variant="link"
               >

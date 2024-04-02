@@ -1,31 +1,69 @@
-import { Menu, MenuButton, MenuItem, MenuList } from "@chakra-ui/react";
+import {
+  Button,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  filter,
+} from "@chakra-ui/react";
 import React from "react";
+import { GameQuery } from "../App";
 
-interface Order {}
+export interface SortOrder {
+  orderType: string;
+}
 
-const SortSelector = () => {
+interface Props {
+  onSelectedOrder: (order: string) => void;
+  selectedOrder: string | null;
+}
+
+const SortSelector = ({ onSelectedOrder, selectedOrder }: Props) => {
+  const sortOrder = [
+    {
+      value: "metacritic",
+      label: "Revelance",
+    },
+    {
+      value: "-added",
+      label: "Date added",
+    },
+    {
+      value: "name",
+      label: "Name",
+    },
+    {
+      value: "-released",
+      label: "Release date",
+    },
+    {
+      value: "-metacritic",
+      label: "Popularity",
+    },
+    {
+      value: "-rating",
+      label: " Average rating",
+    },
+  ];
+
+  const currentSortOrder = sortOrder.find(
+    (order) => order.value === selectedOrder
+  );
   return (
     <Menu>
-      <MenuButton>Order by: Revelance</MenuButton>
+      <MenuButton as={Button}>
+        Order by:{currentSortOrder?.label || "Relevance"}
+      </MenuButton>
       <MenuList>
-        <MenuItem key="metacritic" value="metacritic">
-          Revelance
-        </MenuItem>
-        <MenuItem key="created" value="created">
-          Date added
-        </MenuItem>
-        <MenuItem key="name" value="name">
-          Name
-        </MenuItem>
-        <MenuItem key="released" value="released">
-          Release date
-        </MenuItem>
-        <MenuItem key="rating" value="rating">
-          Popularity
-        </MenuItem>
-        <MenuItem key="rating" value="rating">
-          Average rating
-        </MenuItem>
+        {sortOrder.map((order) => (
+          <MenuItem
+            key={order.value}
+            value={order.value}
+            onClick={() => onSelectedOrder(order.value)}
+          >
+            {order.label}
+          </MenuItem>
+        ))}
       </MenuList>
     </Menu>
   );

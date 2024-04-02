@@ -33,10 +33,13 @@ const GenreList = ({ onSeletedGenre, selectedGenre }: Props) => {
             <HStack>
               <Image
                 boxSize="32px"
+                objectFit="cover"
                 borderRadius={8}
                 src={getCroppedImage(genre.image_background)}
               ></Image>
               <Button
+                whiteSpace="normal"
+                textAlign="left"
                 onClick={() => onSeletedGenre(genre)}
                 fontWeight={genre.id == selectedGenre?.id ? "bold" : ""}
                 fontSize="large"
